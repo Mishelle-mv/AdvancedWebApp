@@ -1,9 +1,12 @@
-import express from "express";
-import commentsController from "../controllers/commentsController";
-import { authenticate } from "../middleware/authMiddleware";
-
-const router = express.Router();
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const commentsController_1 = __importDefault(require("../controllers/commentsController"));
+const authMiddleware_1 = require("../middleware/authMiddleware");
+const router = express_1.default.Router();
 /**
  * @swagger
  * /comment:
@@ -43,8 +46,7 @@ const router = express.Router();
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get("/", commentsController.getAll.bind(commentsController));
-
+router.get("/", commentsController_1.default.getAll.bind(commentsController_1.default));
 /**
  * @swagger
  * /comment/{id}:
@@ -98,8 +100,7 @@ router.get("/", commentsController.getAll.bind(commentsController));
  *             example:
  *               message: "Invalid comment ID"
  */
-router.get("/:id", commentsController.getById.bind(commentsController));
-
+router.get("/:id", commentsController_1.default.getById.bind(commentsController_1.default));
 /**
  * @swagger
  * /comment:
@@ -159,8 +160,7 @@ router.get("/:id", commentsController.getById.bind(commentsController));
  *             example:
  *               message: "Movie not found"
  */
-router.post("/", authenticate, commentsController.create.bind(commentsController));
-
+router.post("/", authMiddleware_1.authenticate, commentsController_1.default.create.bind(commentsController_1.default));
 /**
  * @swagger
  * /comment/{id}:
@@ -206,8 +206,7 @@ router.post("/", authenticate, commentsController.create.bind(commentsController
  *             example:
  *               message: "Invalid comment ID"
  */
-router.delete("/:id", authenticate, commentsController.del.bind(commentsController));
-
+router.delete("/:id", authMiddleware_1.authenticate, commentsController_1.default.del.bind(commentsController_1.default));
 /**
  * @swagger
  * /comment/{id}:
@@ -280,6 +279,6 @@ router.delete("/:id", authenticate, commentsController.del.bind(commentsControll
  *             example:
  *               message: "Invalid comment ID or data"
  */
-router.put("/:id", authenticate, commentsController.update.bind(commentsController));
-
-export default router;
+router.put("/:id", authMiddleware_1.authenticate, commentsController_1.default.update.bind(commentsController_1.default));
+exports.default = router;
+//# sourceMappingURL=commentsRoute.js.map

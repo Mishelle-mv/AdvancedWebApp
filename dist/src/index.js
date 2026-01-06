@@ -6,11 +6,32 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const moviesRoute_1 = __importDefault(require("./routes/moviesRoute"));
+const commentsRoute_1 = __importDefault(require("./routes/commentsRoute"));
+const authRoute_1 = __importDefault(require("./routes/authRoute"));
+const swagger_1 = require("./swagger");
 const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config({ path: '.env.dev' });
+dotenv_1.default.config({ path: ".env.dev" });
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
+// Swagger UI setup
+app.use("/api-docs", swagger_1.swaggerUi.serve, swagger_1.swaggerUi.setup(swagger_1.swaggerSpec, {
+    explorer: true,
+    customCss: '.swagger-ui .topbar { display: none }',
+    customSiteTitle: 'Movies & Comments API Documentation'
+}));
+// Root route redirects to Swagger docs
+app.get('/', (req, res) => {
+    res.redirect('/api-docs');
+});
+// API routes
 app.use("/movie", moviesRoute_1.default);
+app.use("/comment", commentsRoute_1.default);
+app.use("/auth", authRoute_1.default);
+// Swagger JSON endpoint
+app.get('/api-docs.json', (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.send(swagger_1.swaggerSpec);
+});
 const initApp = () => {
     const pr = new Promise((resolve, reject) => {
         const dbUrl = process.env.DATABASE_URL;
@@ -24,11 +45,10 @@ const initApp = () => {
             resolve(app);
         });
         const db = mongoose_1.default.connection;
-        db.on('error', (error) => console.error(error));
-        db.once('open', () => console.log('Connected to Database'));
+        db.on("error", (error) => console.error(error));
+        db.once("open", () => console.log("Connected to Database"));
     });
     return pr;
 };
 exports.default = initApp;
-module.exports = initApp;
 //# sourceMappingURL=index.js.map

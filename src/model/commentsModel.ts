@@ -1,13 +1,20 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const movieSchema = new mongoose.Schema({
-    title: {
-        type: String, 
-        required: true
-    },
-    year: { 
-        type: Number, 
-        required: true
-    }
-});     
-export default mongoose.model('movie', movieSchema);
+const commentsSchema = new mongoose.Schema({
+  movieId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "movie",
+    required: true,
+  },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
+    required: true,
+  },
+  content: {
+    type: String,
+    required: true,
+  },
+});
+
+export default mongoose.model("comment", commentsSchema);

@@ -1,6 +1,11 @@
 "use strict";
-const dotEnv = require('dotenv');
-dotEnv.config({ path: '.env.test' });
-require("dotenv").config({ path: ".env.test" });
-console.log("JEST SETUP DATABASE_URL =", process.env.DATABASE_URL);
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config({ path: '.env.test' });
+//נראה לי שלא צריך את זה
+// require("dotenv").config({ path: ".env.test" });
+// console.log("JEST SETUP DATABASE_URL =", process.env.DATABASE_URL);
 //# sourceMappingURL=jest.setup.js.map
